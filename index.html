@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>خروجة الصحاب 😎</title>
+<title>يارب نخرج 🤲​ </title>
 
 <!-- Flatpickr CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -67,7 +67,7 @@ color:white;
 background:#ff5252;
 color:white;
 position:relative;
-transition: transform 0.2s ease; /* حركة انزلاقية سلسة عند الهروب */
+transition: transform 0.1s ease; /* حركة انزلاقية سلسة عند الهروب */
 }
 
 .hidden{
@@ -121,6 +121,19 @@ font-weight: bold;
 </div>
 
 <!-- الصفحة الثانية -->
+    <input
+    type="text"
+    id="name"
+    placeholder="👤 اكتب اسمك"
+    style="
+        width:100%;
+        padding:12px;
+        margin-bottom:15px;
+        border:1px solid #ccc;
+        border-radius:10px;
+        font-size:16px;
+        text-align:center;
+    ">
 <div id="page2" class="hidden">
 <h1>📅 إمتى تبقى فاضي؟</h1>
 <p>اختار كل الأيام اللي تبقى فاضي فيها</p>
@@ -173,9 +186,12 @@ async function finish() {
         return;
     }
 
-    const name = prompt("اكتب اسمك");
+   const name = document.getElementById("name").value.trim();
 
-    if (!name) return;
+if (name === "") {
+    alert("اكتب اسمك ");
+    return;
+}
 
     const dates = selectedDates.map(d =>
         d.toLocaleDateString("ar-EG")
