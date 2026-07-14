@@ -166,21 +166,34 @@ document.getElementById("page1").classList.add("hidden");
 document.getElementById("page2").classList.remove("hidden");
 }
 
-function finish(){
-if(selectedDates.length===0){
-alert("اختار يوم واحد على الأقل 😄");
-return;
+async function finish() {
+
+    if(selectedDates.length===0){
+        alert("اختار يوم واحد على الأقل");
+        return;
+    }
+
+    const name = prompt("اكتب اسمك");
+
+    if(!name) return;
+
+    await fetch("https://script.google.com/macros/s/AKfycbzyxyI329ufhgi4jCl9xJnslpMI8teV68un7lFUjg8RrKBSP-8TxnBrSYZhqNND4WTq/exec",{
+
+        method:"POST",
+
+        body:JSON.stringify({
+
+            name:name,
+
+            dates:selectedDates
+
+        })
+
+    });
+
+    document.getElementById("page2").classList.add("hidden");
+    document.getElementById("page3").classList.remove("hidden");
 }
-
-// تجهيز الرسالة ورابط الواتساب تلقائياً
-const message = `أنا متاح للخروجة في الأيام دي: \n${formattedDatesText}`;
-const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
-document.getElementById("whatsappShare").setAttribute("href", whatsappUrl);
-
-document.getElementById("page2").classList.add("hidden");
-document.getElementById("page3").classList.remove("hidden");
-}
-
 const noBtn=document.getElementById("noBtn");
 
 // دالة تحريك الزر بنطاق متناسب لتجنب اختفائه خارج الشاشة
