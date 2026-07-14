@@ -168,49 +168,46 @@ document.getElementById("page2").classList.remove("hidden");
 
 async function finish() {
 
-    if(selectedDates.length===0){
+    if (selectedDates.length === 0) {
         alert("اختار يوم واحد على الأقل");
         return;
     }
 
     const name = prompt("اكتب اسمك");
 
-    if(!name) return;
+    if (!name) return;
 
     const dates = selectedDates.map(d =>
-        d.toISOString().split("T")[0]
-    );
+        d.toLocaleDateString("ar-EG")
+    ).join(" , ");
 
     try {
 
-        const res = await fetch(
-        "https://script.google.com/macros/s/AKfycbzyxyI329ufhgi4jCl9xJnslpMI8teV68un7lFUjg8RrKBSP-8TxnBrSYZhqNND4WTq/exec",
-        {
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
+        const response = await fetch("https://sheetdb.io/api/v1/vl497i29wid2s", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
             },
-            body:JSON.stringify({
-                name:name,
-                dates:dates
+            body: JSON.stringify({
+                data: [
+                    {
+                        name: name,
+                        dates: dates
+                    }
+                ]
             })
         });
 
-        const data = await res.text();
-
-        console.log(data);
+        const result = await response.json();
+        console.log(result);
 
         document.getElementById("page2").classList.add("hidden");
         document.getElementById("page3").classList.remove("hidden");
 
-    } catch(err){
-
-        alert("حصل خطأ أثناء الإرسال");
-
-        console.log(err);
-
+    } catch (err) {
+        console.error(err);
+        alert("فشل إرسال البيانات");
     }
-
 }
 const noBtn=document.getElementById("noBtn");
 
