@@ -177,22 +177,40 @@ async function finish() {
 
     if(!name) return;
 
-    await fetch("https://script.google.com/macros/s/AKfycbzyxyI329ufhgi4jCl9xJnslpMI8teV68un7lFUjg8RrKBSP-8TxnBrSYZhqNND4WTq/exec",{
+    const dates = selectedDates.map(d =>
+        d.toISOString().split("T")[0]
+    );
 
-        method:"POST",
+    try {
 
-        body:JSON.stringify({
+        const res = await fetch(
+        "https://script.google.com/macros/s/AKfycbzyxyI329ufhgi4jCl9xJnslpMI8teV68un7lFUjg8RrKBSP-8TxnBrSYZhqNND4WTq/exec",
+        {
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                name:name,
+                dates:dates
+            })
+        });
 
-            name:name,
+        const data = await res.text();
 
-            dates:selectedDates
+        console.log(data);
 
-        })
+        document.getElementById("page2").classList.add("hidden");
+        document.getElementById("page3").classList.remove("hidden");
 
-    });
+    } catch(err){
 
-    document.getElementById("page2").classList.add("hidden");
-    document.getElementById("page3").classList.remove("hidden");
+        alert("حصل خطأ أثناء الإرسال");
+
+        console.log(err);
+
+    }
+
 }
 const noBtn=document.getElementById("noBtn");
 
